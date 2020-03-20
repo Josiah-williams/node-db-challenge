@@ -6,7 +6,7 @@ const db = require("./project-route-helper");
 
 //get Requests
 router.get("/projects", (req, res) => {
-    db.get()
+    db.getprojects()
         .then(projects => {
             res.status(200).json(projects)
         })
@@ -16,7 +16,7 @@ router.get("/projects", (req, res) => {
 })
 
 router.get("/projects/:id", (req, res) => {
-    db.get(req.params.id)
+    db.getprojects(req.params.id)
         .then(project => {
             res.status(200).json(project)
         })
@@ -25,45 +25,7 @@ router.get("/projects/:id", (req, res) => {
         })
 })
 
-router.get("/tasks", (req, res) => {
-    db.getTasks()
-        .then(projects => {
-            res.status(200).json(projects)
-        })
-        .catch(error => {
-            res.status(500).json({ message: "Something went wrong:-" + error.message})
-        })
-})
 
-router.get("/taskOnProject/:id", (req, res) => {
-    db.getProjectTasks(req.params.id)
-        .then(tasks => {
-            res.status(200).json(tasks)
-        })
-        .catch(error => {
-            res.status(500).json({ message: "We cannot retrieve those tasks at this time. " + error.message})
-        })
-})
-
-router.get("/resources", (req, res) => {
-    db.findResources()
-        .then(resources => {
-            res.status(200).json(resources)
-        })
-        .catch(error => {
-            res.status(500).json({ message: "The resources you are looking for cannot be retrieved at this time:-" + error.message})
-        })
-})
-
-router.get("/resources/:id", (req, res) => {
-    db.findResourcesById(req.params.id)
-        .then(resources => {
-            res.status(200).json(resources)
-        })
-        .catch(error => {
-            res.status(500).json({ message: "The resources you are looking for cannot be retrieved at this time:-" + error.message})
-        })
-})
 
 //post requests
 router.post("/projects", (req, res) => {
@@ -78,32 +40,6 @@ router.post("/projects", (req, res) => {
                 res.status(500).json({ message: "something went wrong:-. " + error.message})
             })
     }
-router.post("/tasks", (req, res) => {
-    if(!req.body.description && !req.body.project_id){
-        res.status(400).json({message: "Please provide needed column for the post namely 'description' and 'project_id' "})
-    }else{
-        db.addTask(req.body)
-            .then(tasks => {
-                    res.status(200).json({message: `New project with ID ${tasks} got created`})
-            })
-            .catch(error => {
-                res.status(500).json({ message: "something went wrong:-. " + error.message})
-            })
-    }
-})
-router.post("/resources", (req, res) => {
-    if(!req.body.name){
-        res.status(400).json({message: "Please provide needed column for the post 'name' "})
-    }else{
-        db.addResource(req.body)
-            .then(resource => {
-                    res.status(200).json({message: `New project with ID ${resource} got created`})
-            })
-            .catch(error => {
-                res.status(500).json({ message: "something went wrong:-. " + error.message})
-            })
-    }
-})
 
 
 

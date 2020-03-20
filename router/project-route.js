@@ -5,7 +5,7 @@ const db = require("./project-route-helper");
 
 
 //get Request
-router.get("/projects", (req, res) => {
+router.getprojects("/projects", (req, res) => {
     db.getprojects()
         .then(projects => {
             res.status(200).json(projects)
@@ -15,7 +15,7 @@ router.get("/projects", (req, res) => {
         })
 })
 
-router.get("/projects/:id", (req, res) => {
+router.getprojects("/projects/:id", (req, res) => {
     db.getprojects(req.params.id)
         .then(project => {
             res.status(200).json(project)

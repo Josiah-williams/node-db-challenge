@@ -9,7 +9,8 @@ module.exports = {
     findResources,
     addResource,
     getTasks,
-    get
+    get,
+    findResourcesById,
 } 
 
 function get(id) {
@@ -18,13 +19,15 @@ function get(id) {
     if (id) {
       query.where('p.id', id).first();
 
-      const promises = [query, this.getProjectTasks(id)]; // [ projects, tasks ]
+      const promises = [query, this.getProjectTasks(id)];  this.findResourcesById(id)// [ projects, tasks ]
 
       return Promise.all(promises).then(function(results) {
-        let [project, tasks] = results;
+        let [project, tasks, resource] = results;
 
         if (project) {
           project.tasks = tasks;
+
+          project.resource = resource
 
           return mappers.projectToBody(project);
         } else {
@@ -58,6 +61,14 @@ function addTask (task) {
 }
 function findResources  () {
     return db("resource");
+}
+
+function findResourcesById (id) {
+    return db('project_resource')
+    .join('resource', 'resource.id', 'project_resource.resource_id')
+    .join('projects', 'projects.id', 'project_resource.project_id')
+    .select('resource.id', 'resource.name', 'resource.description')
+    .where('projects.id', id);
 }
 
 function addResource (resource) {

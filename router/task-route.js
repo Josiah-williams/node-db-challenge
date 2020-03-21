@@ -22,15 +22,6 @@ router.get("/tasks/:id", (req, res) => {
             res.status(500).json({ message: "The resources you are looking for cannot be retrieved at this time:-" + error.message})
         })
 })
-router.get("/taskOnProject/:id", (req, res) => {
-    db.getProjectTasks(req.params.id)
-        .then(tasks => {
-            res.status(200).json(tasks)
-        })
-        .catch(error => {
-            res.status(500).json({ message: "We cannot retrieve those tasks at this time. " + error.message})
-        })
-})
 
 router.post("/tasks", (req, res) => {
     if(!req.body.description && !req.body.project_id){

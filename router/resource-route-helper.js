@@ -1,32 +1,23 @@
 const db = require('../data/db-config')
 
 module.exports = {
-    findResources,
-    findLinkedResource,
-    addResource,
-    findResourcesById,
+    getResources,
+    postResource,
+    getResourcesById,
     updateResource,
     removeRosource
 }
 
 
-function findResources () {
+function getResources () {
     return db("resource");
 }
 
-function findResourcesById (id) {
+function getResourcesById (id) {
     return db("resource").where({id}).first();
 }
 
-function findLinkedResource (id) {
-    return db('project_resource')
-    .join('resource', 'resource.id', 'project_resource.resource_id')
-    .join('projects', 'projects.id', 'project_resource.project_id')
-    .select('resource.id', 'resource.name', 'resource.description')
-    .where('projects.id', id);
-}
-
-function addResource (resource ) {
+function postResource (resource ) {
     return db("resource").insert(resource)
 } 
 

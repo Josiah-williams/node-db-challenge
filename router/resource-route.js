@@ -38,12 +38,12 @@ router.post("/resources", (req, res) => {
 })
 
 router.put("/projects/:id", (req, res) => {
-    db.findResourcesById(req.params.id)
+    db.getResourcesById(req.params.id)
     .then(found =>{
         if(found){
             db.updateResource(req.body, req.params.id)
                 .then(resource => {
-                    res.status(200).json({message: `${resource} Project with ID ${req.params.id} got Edited`})
+                    res.status(200).json({message: `${resource} project with ID ${req.params.id} got Edited`})
                 })
         }else{
             res.status(404).json({ message: 'Could not find resource with given id' });
